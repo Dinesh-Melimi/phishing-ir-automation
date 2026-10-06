@@ -40,7 +40,7 @@ flowchart LR
 ## Quick start
 
 ```bash
-git clone https://github.com/<your-username>/phishing-ir-automation.git
+git clone https://github.com/Dinesh-Melimi/phishing-ir-automation.git
 cd phishing-ir-automation
 pip install -r requirements-dev.txt
 make demo          # analyze all 5 sample emails into cases/
