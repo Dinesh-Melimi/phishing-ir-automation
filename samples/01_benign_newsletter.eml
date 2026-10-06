@@ -1,0 +1,21 @@
+Received: by mx.example.com with ESMTPS; Mon, 05 Oct 2026 09:14:02 +0000
+Received: from mail.example.com (mail.example.com [192.0.2.10]) by
+ relay.example.com with ESMTPS; Mon, 05 Oct 2026 09:14:01 +0000
+Authentication-Results: mx.example.com; spf=pass smtp.mailfrom=example.com;
+ dkim=pass header.d=example.com; dmarc=pass header.from=example.com
+Return-Path: <bounce@example.com>
+From: "Example Weekly" <news@example.com>
+To: alex@example.com
+Subject: Your weekly product digest
+Date: Mon, 05 Oct 2026 09:14:00 +0000
+Message-ID: <digest-001@example.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+
+Hi Alex,
+
+Here is this week's digest. Read more at https://www.example.com/blog/weekly
+
+Thanks,
+Example Team

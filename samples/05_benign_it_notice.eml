@@ -1,0 +1,20 @@
+Received: from mail.example.com (mail.example.com [192.0.2.10]) by
+ relay.example.com; Mon, 05 Oct 2026 06:00:00 +0000
+Authentication-Results: mx.example.com; spf=pass smtp.mailfrom=example.com;
+ dkim=pass header.d=example.com; dmarc=pass header.from=example.com
+Return-Path: <it@example.com>
+From: "Example IT" <it@example.com>
+To: alex@example.com
+Subject: Scheduled maintenance this Saturday
+Date: Mon, 05 Oct 2026 09:14:00 +0000
+Message-ID: <it-maint-55@example.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+
+Hello,
+
+The VPN will be unavailable Saturday 02:00-04:00 UTC. Status page: https://st=
+atus.example.com/
+
+Example IT

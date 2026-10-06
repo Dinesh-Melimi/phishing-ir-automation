@@ -1,0 +1,32 @@
+Received: by mx.example.com; Mon, 05 Oct 2026 08:00:01 +0000
+Received: from smtp.invoice-portal.test (smtp.invoice-portal.test
+ [198.51.100.23]) by relay.example.com; Mon, 05 Oct 2026 08:00:00 +0000
+Authentication-Results: mx.example.com; spf=fail
+ smtp.mailfrom=invoice-portal.test; dkim=fail header.d=invoice-portal.test;
+ dmarc=fail
+From: "Accounts Payable" <ap@invoice-portal.test>
+To: finance@example.com
+Subject: Invoice #INV-20931 overdue - final notice
+Date: Mon, 05 Oct 2026 09:14:00 +0000
+Message-ID: <inv-20931@example.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============4567390636792566851=="
+
+--===============4567390636792566851==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Please review the attached invoice. Payment is overdue and must be settled im=
+mediately.
+
+--===============4567390636792566851==
+Content-Type: text/html
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="INV-20931.html"
+MIME-Version: 1.0
+
+PGh0bWw+PGJvZHk+PCEtLSBGSUNUSU9OQUwgVEVTVCBTQU1QTEUgLSBoYXJtbGVzcyAtLT48Zm9y
+bSBhY3Rpb249J2h0dHBzOi8vaW52b2ljZS1wb3J0YWwudGVzdC9jb2xsZWN0Jz5wYXNzd29yZDwv
+Zm9ybT48L2JvZHk+PC9odG1sPg==
+
+--===============4567390636792566851==--

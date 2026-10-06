@@ -1,0 +1,21 @@
+Received: from out.mail-free.test (out.mail-free.test [192.0.2.55]) by
+ relay.example.com; Mon, 05 Oct 2026 07:30:00 +0000
+Authentication-Results: mx.example.com; spf=pass smtp.mailfrom=mail-free.test;
+ dkim=pass header.d=mail-free.test; dmarc=pass header.from=mail-free.test
+From:
+ "Jordan Lee (CEO) jordan.lee@example.com" <jordan.lee.ceo@mail-free.test>
+To: payroll@example.com
+Subject: Direct deposit update - need this today
+Reply-To: jl.ceo.private@mail-free.test
+Date: Mon, 05 Oct 2026 09:14:00 +0000
+Message-ID: <bec-4410@example.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+
+Hi,
+
+I changed banks. Please update my direct deposit before this payroll run - I =
+need it done immediately. I'm in meetings all day so reply by email only.
+
+Jordan
