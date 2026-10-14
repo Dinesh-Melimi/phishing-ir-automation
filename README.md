@@ -19,6 +19,21 @@ It's the first 15 minutes of a phishing investigation, automated: header forensi
 | **Map** | Tags MITRE ATT&CK techniques: T1566.001/.002, T1598.003, T1204.x, T1656. |
 | **Report** | Writes `CASE.json` and a `CASE.md` ticket, and can optionally post to a webhook (off by default). |
 
+## Customer account takeover (ATO) investigation
+
+`python -m phishir ato samples/ato_events.jsonl -o cases/` investigates credential abuse against customer accounts from authentication, API and application logs (JSON Lines):
+
+1. **Detects ATO signals**, each mapped to MITRE ATT&CK: credential stuffing (one IP failing across many accounts in a short window), successful logins from stuffing sources, impossible travel, new devices, email/MFA/payout changes soon after a suspicious login, and API bursts that look like data scraping
+2. **Decides which accounts are compromised**, not just suspicious, so a customer logging in from a new phone is not treated like a takeover
+3. **Pivots on the attacker's IPs, device IDs and non-browser user agents** to find every other customer they touched, split into compromised and targeted only (a reused attacker device is caught even from a new IP)
+4. **Rebuilds a per-account timeline** with attacker events marked, and writes `ato_report.md` (for security, fraud and product teams) plus `ato_findings.json`, with recommended containment steps
+
+```
+3 compromised, 6 targeted -> cases/ato_report.md
+```
+
+Thresholds (stuffing window, travel speed, API burst size) are configurable in `phishir.ato.Config`. The sample incident is synthetic; regenerate it with `python examples/make_ato_sample.py`.
+
 ## Architecture
 
 ```mermaid

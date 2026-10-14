@@ -29,6 +29,7 @@ def test_create_requires_credentials(sample, monkeypatch):
 
 
 def test_cli_export(sample, tmp_path):
-    assert main(["analyze", str(sample("04_phish_payroll_bec.eml")), "-o", str(tmp_path), "--servicenow", "export"]) == 0
+    args = ["analyze", str(sample("04_phish_payroll_bec.eml")), "-o", str(tmp_path), "--servicenow", "export"]
+    assert main(args) == 0
     files = list(tmp_path.glob("*.servicenow.json"))
     assert files and json.loads(files[0].read_text())["category"] == "Security"

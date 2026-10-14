@@ -26,9 +26,15 @@ def main(argv: list[str] | None = None) -> int:
     a.add_argument("--fail-on", choices=["low", "medium", "high", "critical"],
                    help="exit 2 if any case reaches this severity (for automation)")
     a.add_argument("--servicenow", choices=["export", "create"],
-                   help="export: write a ServiceNow incident JSON next to each case; create: post it (needs SNOW_* env)")
+                   help="export: write a ServiceNow incident JSON next to each case; "
+                        "create: post it (needs SNOW_* env)")
     a.add_argument("-v", "--verbose", action="store_true")
+    t = sub.add_parser("ato", help="investigate customer account takeover from auth/API logs (JSONL)")
+    t.add_argument("events")
+    t.add_argument("-o", "--out", default="cases")
     args = ap.parse_args(argv)
+    if args.cmd == "ato":
+        return _ato(args)
 
     logging.basicConfig(level=logging.INFO if args.verbose else logging.WARNING,
                         format="%(levelname)s %(name)s: %(message)s")
@@ -50,6 +56,21 @@ def main(argv: list[str] | None = None) -> int:
         print(f"{case.case_id}  {case.severity.upper():8} {case.score:3}/100  {f}  -> {m}")
     if args.fail_on and order.index(worst) >= order.index(args.fail_on):
         return 2
+    return 0
+
+
+def _ato(args) -> int:
+    from pathlib import Path
+
+    from .ato import investigate, load_events, render_report
+
+    inv = investigate(load_events(args.events))
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "ato_report.md").write_text(render_report(inv), encoding="utf-8")
+    (out / "ato_findings.json").write_text(json.dumps(inv.to_dict(), indent=2), encoding="utf-8")
+    d = inv.to_dict()
+    print(f"{len(d['compromised'])} compromised, {len(d['targeted_only'])} targeted -> {out / 'ato_report.md'}")
     return 0
 
 

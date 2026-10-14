@@ -54,5 +54,5 @@ def create_incident(case: Case, assignment_group: str = "Security Operations", t
     req.add_header("Authorization", f"Basic {token}")
     req.add_header("Content-Type", "application/json")
     req.add_header("Accept", "application/json")
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
+    with urllib.request.urlopen(req, timeout=timeout) as resp:  # noqa: S310  # nosec B310 - fixed https URL
         return json.loads(resp.read())["result"]
