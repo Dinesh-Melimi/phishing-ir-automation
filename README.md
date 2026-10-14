@@ -147,3 +147,18 @@ docs/           PLAYBOOK.md (NIST SP 800-61), INTERVIEW_WALKTHROUGH.md
 ## License
 
 MIT © 2026 Dinesh Melimi
+
+## ServiceNow integration
+
+Every case can become a ServiceNow incident with the triage already done:
+
+```bash
+# Write <case>.servicenow.json next to each case (no credentials needed)
+python -m phishir analyze samples/*.eml -o cases --servicenow export
+
+# Create incidents through the Table API
+export SNOW_INSTANCE=yourinstance SNOW_USER=svc_phishir SNOW_PASSWORD=...
+python -m phishir analyze reported.eml --servicenow create
+```
+
+Severity maps to ServiceNow impact and urgency (critical = 1/1, high = 1/2, medium = 2/2, low = 3/3). The description carries sender, SPF/DKIM/DMARC results and the MITRE ATT&CK techniques; work notes carry defanged indicators, threat-intel verdicts (VirusTotal, AbuseIPDB, URLhaus) and recommended actions. The case ID is set as `correlation_id` so re-runs don't create duplicates. Credentials are read from the environment only.

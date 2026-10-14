@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 import sys
 
 from . import __version__
 from .enrichment import build_providers
 from .pipeline import analyze_file, write_outputs
+from .servicenow import create_incident, to_incident
 from .webhook import post_webhook
 
 
@@ -23,6 +25,8 @@ def main(argv: list[str] | None = None) -> int:
     a.add_argument("--webhook", action="store_true", help="post summary to PHISHIR_WEBHOOK_URL")
     a.add_argument("--fail-on", choices=["low", "medium", "high", "critical"],
                    help="exit 2 if any case reaches this severity (for automation)")
+    a.add_argument("--servicenow", choices=["export", "create"],
+                   help="export: write a ServiceNow incident JSON next to each case; create: post it (needs SNOW_* env)")
     a.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args(argv)
 
@@ -36,6 +40,12 @@ def main(argv: list[str] | None = None) -> int:
         _, m = write_outputs(case, args.out)
         if args.webhook:
             post_webhook(case)
+        if args.servicenow == "export":
+            p = m.with_name(f"{case.case_id}.servicenow.json")
+            p.write_text(json.dumps(to_incident(case), indent=2))
+        elif args.servicenow == "create":
+            rec = create_incident(case)
+            print(f"  ServiceNow {rec.get('number', '?')} created")
         worst = max(worst, case.severity, key=order.index)
         print(f"{case.case_id}  {case.severity.upper():8} {case.score:3}/100  {f}  -> {m}")
     if args.fail_on and order.index(worst) >= order.index(args.fail_on):
