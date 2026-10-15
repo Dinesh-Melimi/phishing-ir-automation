@@ -32,6 +32,7 @@ def main(argv: list[str] | None = None) -> int:
     t = sub.add_parser("ato", help="investigate customer account takeover from auth/API logs (JSONL)")
     t.add_argument("events")
     t.add_argument("-o", "--out", default="cases")
+    a.add_argument("--stix", action="store_true", help="also write a STIX 2.1 bundle (<case_id>.stix.json)")
     args = ap.parse_args(argv)
     if args.cmd == "ato":
         return _ato(args)
@@ -46,6 +47,10 @@ def main(argv: list[str] | None = None) -> int:
         _, m = write_outputs(case, args.out)
         if args.webhook:
             post_webhook(case)
+        if getattr(args, "stix", False):
+            from .intel import assess, stix_bundle, to_json
+            sp = m.with_name(f"{case.case_id}.stix.json")
+            sp.write_text(to_json(stix_bundle(case, assess(case))))
         if args.servicenow == "export":
             p = m.with_name(f"{case.case_id}.servicenow.json")
             p.write_text(json.dumps(to_incident(case), indent=2))

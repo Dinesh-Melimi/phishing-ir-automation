@@ -19,6 +19,17 @@ It's the first 15 minutes of a phishing investigation, automated: header forensi
 | **Map** | Tags MITRE ATT&CK techniques: T1566.001/.002, T1598.003, T1204.x, T1656. |
 | **Report** | Writes `CASE.json` and a `CASE.md` ticket, and can optionally post to a webhook (off by default). |
 
+## Threat intelligence: confidence scoring and STIX export
+
+`phishir.intel` turns raw provider enrichments into assessed intelligence and shares it:
+
+- **Correlation and confidence**: combines VirusTotal, AbuseIPDB and URLhaus verdicts per IOC into a single verdict with an admiralty-style confidence (High / Medium / Low) from source agreement, so a multi-source malicious match outranks one low-confidence hit
+- **STIX 2.1 bundle**: `--stix` writes `<case_id>.stix.json` with indicator objects for malicious/suspicious IOCs (IPv4, domain, URL, file hash, email patterns), their confidence, and `indicates` relationships to MITRE ATT&CK attack-patterns, ready for a TIP or TAXII server
+
+```bash
+python -m phishir analyze suspicious.eml --stix
+```
+
 ## Customer account takeover (ATO) investigation
 
 `python -m phishir ato samples/ato_events.jsonl -o cases/` investigates credential abuse against customer accounts from authentication, API and application logs (JSON Lines):
